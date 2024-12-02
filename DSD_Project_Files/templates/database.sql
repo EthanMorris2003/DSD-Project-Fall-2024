@@ -8,8 +8,11 @@ CREATE TABLE Customer (
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     Address TEXT NOT NULL,
-    CreditCardNumber CHAR(16) NOT NULL
+    CreditCard CHAR(8) NOT NULL
 );
+INSERT INTO Customer (CustomerID, FirstName, LastName,
+            Address, CreditCard) VALUES (2121, 'Ambessa',
+            'Medarda', '321 Captain Blvd.', 7328372);
 
 -- Horse Table
 CREATE TABLE Horse (
@@ -19,6 +22,9 @@ CREATE TABLE Horse (
     Price DECIMAL(10, 2) NOT NULL,
     Stock INT NOT NULL
 );
+INSERT INTO Horse (HorseID, Name, Breed, Price, Stock)
+            VALUES (73918, 'Seabiscuit', 'Purebred',
+            100, 9);
 
 -- Cart Table
 CREATE TABLE Cart (

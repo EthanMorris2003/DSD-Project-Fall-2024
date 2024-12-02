@@ -166,11 +166,16 @@ $sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
         </div>
     </main>
      <?php
+     $cus_Fname = "";
+     $cus_Lname = "";
+     $cus_Address = "";
+     $cus_Credit = "";
+     $cus_Phone = "";
     $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
-    $sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
+    $sql_ins = $conn->prepare("INSERT INTO Customer (CustomerID, FirstName,
                 LastName, Address, CreditCardNumber) 
-                VALUES ('?', '?', '?', '?')";
-    $sql_ins->bind_param()
+                VALUES ('?', '?', '?', '?', '?')"); //prepare the statement
+    $sql_ins->bind_param($cus_Fname, $cus_Lname, $cus_Address, $cus_Credit, $cus_Phone);
 
     ?>
 
