@@ -1,6 +1,12 @@
 <?php
 session_start(); //Initialize session
 
+//Query to add new customer
+$conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
+$sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
+            LastName, Address, CreditCardNumber) 
+            VALUES ('?', '?', '?', '?')";
+
 ?>
 
 
@@ -159,7 +165,14 @@ session_start(); //Initialize session
             </form>
         </div>
     </main>
-        
+     <?php
+    $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
+    $sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
+                LastName, Address, CreditCardNumber) 
+                VALUES ('?', '?', '?', '?')";
+    $sql_ins->bind_param()
+
+    ?>
 
 
     <footer>
