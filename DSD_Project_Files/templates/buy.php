@@ -132,7 +132,12 @@
 
             <button type="submit" class="submit-button">Place Order</button>
         </form>
+
+        <?php
+
+        ?>
     </main>
+    </body>
 
     <footer>
         <p>&copy; 2024 The Armored Stallion</p>
