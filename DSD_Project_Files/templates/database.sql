@@ -8,10 +8,10 @@ CREATE TABLE Customer (
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     Address TEXT NOT NULL,
-    CreditCard CHAR(8) NOT NULL
+    CredCar CHAR(8) NOT NULL
 );
 INSERT INTO Customer (CustomerID, FirstName, LastName,
-            Address, CreditCard) VALUES (2121, 'Beldin',
+            Address, CredCar) VALUES (2121, 'Beldin',
             'Mektic', '321 Captain Blvd.', 7328372);
 
 -- Horse Table
