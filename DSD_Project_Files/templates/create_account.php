@@ -1,16 +1,14 @@
 <?php
-session_start(); //Initialize session
+session_start(); // Initialize session
 
-//Query to add new customer
+// Database connection
 $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
-$sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
-            LastName, Address, CreditCardNumber) 
-            VALUES ('?', '?', '?', '?')";
+
+// Prepare the SQL statement
+$sql_ins = $conn->prepare("INSERT INTO Customer (Username, Password, Address, CreditCardNumber, PhoneNumber) 
+            VALUES (?, ?, ?, ?, ?)");
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -155,9 +153,9 @@ $sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
 
         <div class="login-container">
             <h1>Create Account</h1>
-            <form id="createAccountForm">
-                <input type="text" name="first_name" placeholder="First Name" required>
-                <input type="text" name="last_name" placeholder="Last Name" required>
+            <form id="createAccountForm" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <input type="text" name="address" placeholder="Address" required>
                 <input type="text" name="credit_card" placeholder="Credit Card Number" required>
                 <input type="tel" name="phone" placeholder="Phone Number" required>
@@ -165,20 +163,25 @@ $sql_ins = "INSERT INTO Customer (CustomerID, FirstName,
             </form>
         </div>
     </main>
-     <?php
-     $cus_Fname = "";
-     $cus_Lname = "";
-     $cus_Address = "";
-     $cus_Credit = "";
-     $cus_Phone = "";
-    $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
-    $sql_ins = $conn->prepare("INSERT INTO Customer (CustomerID, FirstName,
-                LastName, Address, CreditCardNumber) 
-                VALUES ('?', '?', '?', '?', '?')"); //prepare the statement
-    $sql_ins->bind_param($cus_Fname, $cus_Lname, $cus_Address, $cus_Credit, $cus_Phone);
+    <?php
+    // Process form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password for security
+        $address = $_POST['address'];
+        $credit_card = $_POST['credit_card'];
+        $phone = $_POST['phone'];
 
+        if ($sql_ins) {
+            $sql_ins->bind_param("sssss", $username, $password, $address, $credit_card, $phone);
+            if ($sql_ins->execute()) {
+                echo "<script>alert('Account created successfully!');</script>";
+            } else {
+                echo "<script>alert('Error creating account: " . $conn->error . "');</script>";
+            }
+        }
+    }
     ?>
-
 
     <footer>
         <p>&copy; 2024 The Armored Stallion</p>
