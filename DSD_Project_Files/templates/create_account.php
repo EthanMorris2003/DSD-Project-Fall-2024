@@ -145,7 +145,7 @@ include "database.php";
 
         <div class="login-container">
             <h1>Create Account</h1>
-            <form action="create_account.php" id="createAccountForm" method="post">
+            <form action="create_account.php" id="createAccountForm" method="GET">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="text" name="address" placeholder="Address" required>
@@ -156,14 +156,26 @@ include "database.php";
         </div>
     </main>
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
         //Get the form data
-        $phone = $_POST["phone"];
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $Address = $_POST["address"];
-        $credit = $_POST["credit_card"];
+        $phone = $_GET["phone"];
+        $username = $_GET["username"];
+        $password = $_GET["password"];
+        $Address = $_GET["address"];
+        $credit = $_GET["credit_card"];
 
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql_ins = "INSERT INTO Customer (Username, Password,
+                    Address, CredCar, Phone) VALUES (?, ?, ?,
+                    ?, ?)";
+        $stmt = $conn->prepare($sql_ins);
+        $stmt->bind_param("sssis", $username, $hash, $address,
+                                  $credit, $phone);
+        $stmt->execute();
+        echo $stmt->error;
+        $stmt->close();
+    }
+        /*
         if(empty($phone)) {
             echo "Please enter phone number";
         } elseif (empty($username)) {
@@ -183,6 +195,7 @@ include "database.php";
             echo "Account created!!";
         }
     }    
+        */
     ?>
 
     <footer>

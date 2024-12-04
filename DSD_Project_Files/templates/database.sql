@@ -5,7 +5,7 @@ CREATE TABLE Customer (
     Password VARCHAR(50) NOT NULL,
     Address TEXT NOT NULL,
     CredCar INT NOT NULL,
-    Phone INT NOT NULL
+    Phone VARCHAR(50) NOT NULL
 );
 
 -- Horse Table
