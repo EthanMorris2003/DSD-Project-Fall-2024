@@ -1,7 +1,3 @@
-CREATE DATABASE ArmoredStallion;
-
-USE ArmoredStallion;
-
 -- Customer Table
 CREATE TABLE Customer (
     CustomerID INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,8 +1,8 @@
 <?php
 $db_server = "localhost";
-$db_user = "root";
-$db_pass = "";
-$db_name = "ArmoredStallion";
+$db_user = "ekidd7";
+$db_pass = "k8QJ6eko";
+$db_name = "ekidd7";
 
 $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
 
@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $credit = $_POST["creditcard"];
 
     //Insertion
-    $sql_ins = "INSERT INTO Customer (CustomerID, FirstName, LastName,
-            Address, CreditCard) VALUES (?, ?, ?, ?, ?)";
+    $sql_ins = "INSERT INTO Customer (CustomerID, Username, Password,
+            Address, CredCar) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_ins);
-    $stmt->bind_param("dsssd", $ID, $FirstName, $LastName, $Address, $credit);
+    $stmt->bind_param("dsssd", $ID, $username, $password, $Address, $credit);
 
     if ($stmt->execute()) {
         echo "New user was added successfully";
