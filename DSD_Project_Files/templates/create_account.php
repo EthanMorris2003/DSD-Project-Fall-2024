@@ -1,13 +1,5 @@
 <?php
-session_start(); // Initialize session
-
-// Database connection
-$conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
-
-// Prepare the SQL statement
-$sql_ins = $conn->prepare("INSERT INTO Customer (Username, Password, Address, CreditCardNumber, PhoneNumber) 
-            VALUES (?, ?, ?, ?, ?)");
-
+include "database.php";
 ?>
 
 <!DOCTYPE html>
@@ -153,7 +145,7 @@ $sql_ins = $conn->prepare("INSERT INTO Customer (Username, Password, Address, Cr
 
         <div class="login-container">
             <h1>Create Account</h1>
-            <form id="createAccountForm" method="post">
+            <form action="create_account.php" id="createAccountForm" method="post">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="text" name="address" placeholder="Address" required>
@@ -164,23 +156,33 @@ $sql_ins = $conn->prepare("INSERT INTO Customer (Username, Password, Address, Cr
         </div>
     </main>
     <?php
-    // Process form submission
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password for security
-        $address = $_POST['address'];
-        $credit_card = $_POST['credit_card'];
-        $phone = $_POST['phone'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //Get the form data
+        $phone = $_POST["phone"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $Address = $_POST["address"];
+        $credit = $_POST["credit_card"];
 
-        if ($sql_ins) {
-            $sql_ins->bind_param("sssss", $username, $password, $address, $credit_card, $phone);
-            if ($sql_ins->execute()) {
-                echo "<script>alert('Account created successfully!');</script>";
-            } else {
-                echo "<script>alert('Error creating account: " . $conn->error . "');</script>";
-            }
+        if(empty($phone)) {
+            echo "Please enter phone number";
+        } elseif (empty($username)) {
+            echo "Please enter username";
+        } elseif (empty($password)) {
+            echo "Please enter password";
+        } elseif (empty($Address)) {
+            echo "Please enter address";
+        } elseif (empty($credit)) {
+            echo "Please enter credit card number";
+        } else {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql_ins = "INSERT INTO Customer (Username, Password,
+                        Address, CredCar, Phone) VALUES ($username,
+                        $hash, $address, $credit, $phone)";
+            mysqli_query($conn, $sql_ins);
+            echo "Account created!!";
         }
-    }
+    }    
     ?>
 
     <footer>
@@ -196,3 +198,7 @@ $sql_ins = $conn->prepare("INSERT INTO Customer (Username, Password, Address, Cr
     </script>
 </body>
 </html>
+
+<?php
+mysqli_close($conn);
+?>

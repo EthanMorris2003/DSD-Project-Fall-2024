@@ -1,14 +1,47 @@
 <?php
-$db_server = "localhost";
-$db_user = "ekidd7";
-$db_pass = "k8QJ6eko";
-$db_name = "ekidd7";
 
-$conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
+include "database.php";
+?>
 
-if ($conn->connect_error) {
-    die("Unable to connect". $conn->connect_error);
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customers</title>
+</head>
+<body>
+    <h1>Customer List</h1>
+    <table border="1">
+        <tr>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer['customer_id'] }}</td>
+            <td>{{ customer['first_name'] }}</td>
+            <td>{{ customer['last_name'] }}</td>
+            <td>{{ customer['email'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Add New Customer</h2>
+    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+        <label>First Name:</label><br>
+        <input type="text" name="first_name" required><br>
+        <label>Last Name:</label><br>
+        <input type="text" name="last_name" required><br>
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br>
+        <button type="submit">Add Customer</button>
+    </form>
+</body>
+</html>
+
+
+<?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Get the data from form
@@ -34,3 +67,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 
+?>

@@ -4,11 +4,9 @@ CREATE TABLE Customer (
     Username VARCHAR(50) NOT NULL,
     Password VARCHAR(50) NOT NULL,
     Address TEXT NOT NULL,
-    CredCar CHAR(8) NOT NULL
+    CredCar INT NOT NULL,
+    Phone INT NOT NULL
 );
-INSERT INTO Customer (CustomerID, Username, Password,
-            Address, CredCar) VALUES (2121, 'mbektic',
-            'password1', '321 Squire Blvd.', 7328372);
 
 -- Horse Table
 CREATE TABLE Horse (
