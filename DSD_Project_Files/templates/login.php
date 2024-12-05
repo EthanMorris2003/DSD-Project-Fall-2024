@@ -1,3 +1,90 @@
+<?php
+session_start();
+
+//If user is logged in, go to homepage.php
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: homepage.php");
+    exit;
+}
+
+include "database.php";
+
+$user = $pass = "";
+$user_err = $pass_err = $login_err = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    //Check for empty user
+    if(empty(trim($_POST["user"]))) {
+        $user_err = "Enter a username dummy";
+        echo $user_err;
+    } else {
+        $user = trim($_POST["user"]);
+    }
+
+    //Check for empty pass
+    if(empty(trim($_POST["pass"]))) {
+        $pass_err = "Enter a password dummy";
+        echo $pass_err;
+    } else {
+        $user = trim($_POST["pass"]);
+    }
+
+    //Validate user
+    if(empty($user_err) && empty($pass_err)) {
+        $sql = "SELECT CustomerID, Username, Password, Address, CredCar, Phone FROM Customer WHERE Username = ?";
+
+        if($stmt = $mysqli->prepare($sql)) {
+            //Bind variables
+            $stmt->bind_param("s", $param_user);
+
+            //Sets parameter
+            $param_user = $user;
+
+            if($stmt->execute()) {
+                $stmt->store_result();
+
+                if($stmt->num_rows == 1) {
+
+                //Attempt to execute
+                    if($stmt->execute()) {
+                    $stmt->store_result();
+
+                    //Check if user exists, if so, verify password
+                        $stmt->bind_result($id, $user, $hash);
+                        if($stmt->fetch()) {
+                            if(password_verify($pass, $hash)) {
+                            //If password is correct, start new session
+                            session_start();
+
+                            //Store data
+                            $_SESSION["loggedin"] == true;
+                            $_SESSION["CustomerID"] = $id;
+                            $_SESSION["Username"] = $user;
+
+                            header("location: homepage.php");
+                            } else {
+                            //Password fails
+                             $login_err = "Invalid username of password";
+                            }
+                        }
+                    }
+                } else {
+                    //Username fails
+                    $login_err = "Invalid username or password";
+                }
+            } else {
+                echo "Unable to login";
+            }
+            //close statement
+            $stmt->close();
+        }
+    } 
+    //Close connection
+    $mysqli->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,11 +248,16 @@ footer {
         <!-- Login Container -->
         <div class="login-container">
             <h1>Login</h1>
-            <form action="/login" method="post">
+            <form action="/login" method="POST">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="login-button">Login</button>
             </form>
+            <?php
+                sss
+
+            ?>
+            </div>
             <div class="create-account">
                 <a href="create_account.html">Create Account</a>
             </div>
