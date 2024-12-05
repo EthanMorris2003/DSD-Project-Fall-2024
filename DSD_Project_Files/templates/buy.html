@@ -111,7 +111,7 @@
     </header>
 
     <main>
-        <form action="confirmation.html" method="POST">
+        <form id="purchaseForm">
             <h2>Complete Your Purchase</h2>
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
@@ -137,5 +137,24 @@
     <footer>
         <p>&copy; 2024 The Armored Stallion</p>
     </footer>
+
+    <script>
+        document.getElementById('purchaseForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const payment = document.getElementById('payment').value;
+
+            if (name && email && address && payment) {
+                // Redirect to homepage.html if all fields are filled
+                window.location.href = 'homepage.html';
+            } else {
+                alert('Please fill out all required fields.');
+            }
+        });
+    </script>
 </body>
 </html>
+Features:
+Event Listener 
