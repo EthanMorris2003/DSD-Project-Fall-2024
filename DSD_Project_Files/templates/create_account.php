@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-//Check if user is logged in, if not, redirect to login.php
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
-    header("location: login.php");
-    exit;
-}
+Include "database.php";
 ?>
 
 <!DOCTYPE html>
@@ -151,7 +147,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
 
         <div class="login-container">
             <h1>Create Account</h1>
-            <form action="create_account.php" id="createAccountForm" method="GET">
+            <form action="create_account.php" id="createAccountForm" method="POST">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="text" name="address" placeholder="Address" required>
@@ -159,28 +155,26 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
                 <input type="tel" name="phone" placeholder="Phone Number" required>
                 <button type="submit" class="create-account-button">Create Account</button>
             </form>
-        </div>
-    </main>
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        //Get the form data
-        $phone = $_GET["phone"];
-        $username = $_GET["username"];
-        $password = $_GET["password"];
-        $Address = $_GET["address"];
-        $credit = $_GET["credit_card"];
+            <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            //POST the form data
+            $phone = $_POST["phone"];
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            $Address = $_POST["address"];
+            $credit = $_POST["credit_card"];
 
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql_ins = "INSERT INTO Customer (Username, Password,
-                    Address, CredCar, Phone) VALUES (?, ?, ?,
-                    ?, ?)";
-        $stmt = $conn->prepare($sql_ins);
-        $stmt->bind_param("sssis", $username, $hash, $address,
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql_ins = "INSERT INTO Customer (Username, Password,
+                        Address, CredCar, Phone) VALUES (?, ?, ?,
+                        ?, ?)";
+            $stmt = $conn->prepare($sql_ins);
+            $stmt->bind_param("sssis", $username, $hash, $address,
                                   $credit, $phone);
-        $stmt->execute();
-        echo $stmt->error;
-        $stmt->close();
-    }
+            $stmt->execute();
+            echo $stmt->error;
+            $stmt->close();
+        }
         /*
         if(empty($phone)) {
             echo "Please enter phone number";
@@ -204,15 +198,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
         */
     ?>
 
+        </div>
+    </main>
     <footer>
         <p>&copy; 2024 The Armored Stallion</p>
     </footer>
 
     <script>
         // Adding form submit event to redirect to login page
-        document.getElementById('createAccountForm').addEventListener('submit', function(event) {
+        document.POSTElementById('createAccountForm').addEventListener('submit', function(event) {
             event.preventDefault();  // Prevent form from submitting normally
-            window.location.href = 'login.html';  // Redirect to login page
+            window.location.href = 'login.php';  // Redirect to login page
         });
     </script>
 </body>

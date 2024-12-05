@@ -3,7 +3,7 @@ CREATE TABLE Customer (
     CustomerID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL,
     Password VARCHAR(50) NOT NULL,
-    Address TEXT NOT NULL,
+    Address VARCHAR(50) NOT NULL,
     CredCar INT NOT NULL,
     Phone VARCHAR(50) NOT NULL
 );
