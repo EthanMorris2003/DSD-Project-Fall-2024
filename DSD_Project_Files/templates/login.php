@@ -253,10 +253,6 @@ footer {
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="login-button">Login</button>
             </form>
-            <?php
-                sss
-
-            ?>
             </div>
             <div class="create-account">
                 <a href="create_account.html">Create Account</a>
