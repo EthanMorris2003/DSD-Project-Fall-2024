@@ -1,9 +1,3 @@
-<?php
-session_start();
-
-Include "database.php";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +71,8 @@ Include "database.php";
             border: 2px solid #313131;
             flex: 1;
             margin-left: auto;
-            height: 100%;
+            height: 70%;
+            width: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -141,79 +136,28 @@ Include "database.php";
     </header>
 
     <main>
-        <div class="image-container">
-            <img src="/Users/ethanmorris/Desktop/GitHub Repos/DSD-Project-Fall-2024/DSD_Project_Files/templates/abstract-woman-knight2299.logowik.com.webp" alt="Decorative Image">
-        </div>
 
         <div class="login-container">
-            <h1>Create Account</h1>
-            <form action="create_account.php" id="createAccountForm" method="POST">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="text" name="address" placeholder="Address" required>
-                <input type="text" name="credit_card" placeholder="Credit Card Number" required>
-                <input type="tel" name="phone" placeholder="Phone Number" required>
-                <button type="submit" class="create-account-button">Create Account</button>
+            <h1>Confirm Username for Deleted Account</h1>
+            <form id="createAccountForm">
+                <input type="text" name="Username" placeholder="Username" required>
+                <button type="submit" class="create-account-button">Delete Account</button>
             </form>
-            <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            //POST the form data
-            $phone = $_POST["phone"];
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-            $Address = $_POST["address"];
-            $credit = $_POST["credit_card"];
-
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $sql_ins = "INSERT INTO Customer (Username, Password,
-                        Address, CredCar, Phone) VALUES (?, ?, ?,
-                        ?, ?)";
-            $stmt = $conn->prepare($sql_ins);
-            $stmt->bind_param("sssis", $username, $hash, $address,
-                                  $credit, $phone);
-            $stmt->execute();
-            echo $stmt->error;
-            $stmt->close();
-        }
-        /*
-        if(empty($phone)) {
-            echo "Please enter phone number";
-        } elseif (empty($username)) {
-            echo "Please enter username";
-        } elseif (empty($password)) {
-            echo "Please enter password";
-        } elseif (empty($Address)) {
-            echo "Please enter address";
-        } elseif (empty($credit)) {
-            echo "Please enter credit card number";
-        } else {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $sql_ins = "INSERT INTO Customer (Username, Password,
-                        Address, CredCar, Phone) VALUES ($username,
-                        $hash, $address, $credit, $phone)";
-            mysqli_query($conn, $sql_ins);
-            echo "Account created!!";
-        }
-    }    
-        */
-    ?>
-
         </div>
     </main>
+
+
+
     <footer>
         <p>&copy; 2024 The Armored Stallion</p>
     </footer>
 
     <script>
         // Adding form submit event to redirect to login page
-        document.POSTElementById('createAccountForm').addEventListener('submit', function(event) {
+        document.getElementById('createAccountForm').addEventListener('submit', function(event) {
             event.preventDefault();  // Prevent form from submitting normally
-            window.location.href = 'login.php';  // Redirect to login page
+            window.location.href = 'login.html';  // Redirect to login page
         });
     </script>
 </body>
 </html>
-
-<?php
-mysqli_close($conn);
-?>

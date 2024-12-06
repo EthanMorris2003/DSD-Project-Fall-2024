@@ -3,9 +3,9 @@ CREATE TABLE Customer (
     CustomerID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL,
     Password VARCHAR(50) NOT NULL,
-    Address TEXT NOT NULL,
+    Address VARCHAR(50) NOT NULL,
     CredCar INT NOT NULL,
-    Phone INT NOT NULL
+    Phone VARCHAR(50) NOT NULL
 );
 
 -- Horse Table
@@ -16,14 +16,6 @@ CREATE TABLE Horse (
     Price DECIMAL(10, 2) NOT NULL,
     Stock INT NOT NULL
 );
-INSERT INTO Horse (HorseID, Name, Breed, Price, Stock)
-            VALUES (73918, 'Seabiscuit', 'Purebred',
-            100, 9),
-            (98709, 'Aatrox', 'Alaskan', 9999, 84),
-            (68859, 'Warwick', 'Pony', 392, 45),
-            (15264, 'Majin Buu', 'Unicorn', 435, 3),
-            (27194, 'Perfect Cell', 'Perfection', 5294, 1),
-            (14141, 'Medo', 'Super', 88, 12);
 
 -- Cart Table
 CREATE TABLE Cart (
